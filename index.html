@@ -490,12 +490,12 @@ function writePackage(zip, o, b) {
 <dc:title>${esc(o.title)}</dc:title>
 ${o.author ? `<dc:creator>${esc(o.author)}</dc:creator>\n` : ''}<dc:language>${o.lang}</dc:language>
 <meta property="dcterms:modified">${now}</meta>
-${b.coverId ? `<meta name="cover" content="${b.coverId}"/>\n` : ''}${b.fixed ? '<meta property="rendition:layout">pre-paginated</meta>\n<meta property="rendition:spread">auto</meta>\n' : ''}</metadata>
+${b.coverId ? `<meta name="cover" content="${b.coverId}"/>\n` : ''}${b.fixed ? '<meta property="rendition:layout">pre-paginated</meta>\n<meta property="rendition:spread">none</meta>\n' : ''}</metadata>
 <manifest>
 ${items.map(it => `<item id="${it.id}" href="${it.href}" media-type="${it.mt}"${it.props ? ` properties="${it.props}"` : ''}/>`).join('\n')}
 </manifest>
 <spine toc="ncx">
-${b.spine.map(id => `<itemref idref="${id}"/>`).join('\n')}
+${b.spine.map(id => `<itemref idref="${id}"${b.fixed ? ' properties="rendition:page-spread-center"' : ''}/>`).join('\n')}
 </spine>
 </package>`;
   zip.file('OEBPS/content.opf', opf);
